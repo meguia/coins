@@ -159,34 +159,44 @@ yaw $(@bind yaw_deg Slider(-180.0:1.0:180.0, default=0.0)) rotate around vertica
 $(@bind with_caps CheckBox(default=false)) add end caps \
 """
 
-# ╔═╡ 18ef71ee-2cff-49b7-b2b3-f6bad2a570f1
+# ╔═╡ 923c5196-d665-4a5b-bf0d-803ff788c735
 begin
-	using GeometryBasics: TriangleFace, Mesh
 	alpha = deg2rad(alpha_deg)
 	roll  = deg2rad(roll_deg)
 	yaw   = deg2rad(yaw_deg)
 	verts, faces = cylinder_mesh(R, h, N; caps=with_caps)
 	tverts, contact_idx = place_coin(verts, alpha; roll=roll, yaw=yaw)
+end
+
+# ╔═╡ 18ef71ee-2cff-49b7-b2b3-f6bad2a570f1
+begin
+	using GeometryBasics: TriangleFace, Mesh
 	
 	# A horizontal floor at z = 0
-	s = 2
-	floor_verts = Point3f[
-	    (-s, -s, 0),
-	    ( s, -s, 0),
-	    ( s,  s, 0),
-	    (-s,  s, 0),
-	]
-	floor_faces = [(1,2,3), (1,3,4)]
+	#s = 2
+	#floor_verts = Point3f[
+	#    (-s, -s, 0),
+	#    ( s, -s, 0),
+	#    ( s,  s, 0),
+	#    (-s,  s, 0),
+	#]
+	#floor_faces = [(1,2,3), (1,3,4)]
 
 	fig = Figure(size = (800, 600))
-	ax = Axis3(fig[1,1],
-	    title = "Coin (Cylinder) tilted by α = $(round(alpha_deg, digits=1))°",
-	    xlabel = "x", ylabel = "y", zlabel = "z",
-	    elevation = 0.8, azimuth = 0.6
-	)
+	#ax = Axis3(fig[1,1],
+	#    title = "Coin (Cylinder) tilted by α = $(round(alpha_deg, digits=1))°",
+	#    xlabel = "x", ylabel = "y", zlabel = "z",
+	#    elevation = 0.8, azimuth = 0.6
+	#)
+
+	ax = Axis3(fig[1,1])
+	#    title = "Coin (Cylinder) tilted by α = $(round(alpha_deg, digits=1))°",
+	#    xlabel = "x", ylabel = "y", zlabel = "z",
+	#    elevation = 0.8, azimuth = 0.6
+	#)
 
 	# Floor
-	mesh!(ax, Mesh(floor_verts, TriangleFace.(floor_faces)), color = :lightgray, transparency = false)
+	#mesh!(ax, Mesh(floor_verts, TriangleFace.(floor_faces)), color = :lightgray, transparency = false)
 
 	# Coin/cylinder 
 	mesh!(ax, Mesh(tverts, TriangleFace.(faces)), color = (with_caps ? :gold : :orange))
@@ -198,14 +208,14 @@ begin
 	end
 
 	# Nice limits
-	allx = [v[1] for v in tverts]
-	ally = [v[2] for v in tverts]
-	allz = [v[3] for v in tverts]
-	r = maximum([maximum(abs, allx), maximum(abs, ally), maximum(abs, allz)]) + R
-	r = max(r, 1.2R)
+	#allx = [v[1] for v in tverts]
+	#ally = [v[2] for v in tverts]
+	#allz = [v[3] for v in tverts]
+	#r = maximum([maximum(abs, allx), maximum(abs, ally), maximum(abs, allz)]) + R
+	#r = max(r, 1.2R)
 	xlims!(ax, -2, 2); ylims!(ax, -2, 2); zlims!(ax, 0, 2)
 
-	hidedecorations!(ax, grid=false)
+	#hidedecorations!(ax, grid=false)
 	ax.azimuth = deg2rad(35)
 	ax.elevation = deg2rad(20)
 
@@ -1848,7 +1858,8 @@ version = "4.1.0+0"
 # ╟─be7cf9d2-67bf-4ee3-a8c1-760239bbba12
 # ╟─4195bf3b-2999-4223-9228-135e56c8457e
 # ╟─3e7beb9a-b6f2-4443-aa32-51b445af9693
-# ╟─18ef71ee-2cff-49b7-b2b3-f6bad2a570f1
+# ╠═923c5196-d665-4a5b-bf0d-803ff788c735
+# ╠═18ef71ee-2cff-49b7-b2b3-f6bad2a570f1
 # ╟─52b585d3-914c-4b26-a8a8-0517e64f5361
 # ╟─00000000-0000-0000-0000-000000000001
 # ╟─00000000-0000-0000-0000-000000000002
